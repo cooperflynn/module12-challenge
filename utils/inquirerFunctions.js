@@ -6,7 +6,7 @@ function firstQuestion() {
             type: 'list',
             name: 'choice',
             message: 'Select one:',
-            choices: ['View all departments', 'View all roles', 'View all employees', 'Add department', 'Add role','Add employee', 'Update employee role']
+            choices: ['View all departments', 'View all roles', 'View all employees', 'Add department', 'Add role','Add employee', 'Update employee role', 'View employees by manager', 'View employees by department', 'Delete employee']
         }]).then(answer => {
             res(answer);
         }).catch(err => {
@@ -160,6 +160,11 @@ function updateRoleQuestions() {
                 type: 'input',
                 name: 'role',
                 message: 'Enter new role:'
+            },
+            {
+                type: 'input',
+                name: 'manager',
+                message: 'Enter employees new manager'
             }
         ]).then(answer => {
             res(answer);
@@ -168,10 +173,43 @@ function updateRoleQuestions() {
         });
     });
 }
+function viewByManagerQuestions() {
+    return new Promise((res, rej) => {
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'id',
+                message: 'Enter manager id:'
+            }
+        ]).then(answer => {
+            res(answer);
+        }).catch(err => {
+            if (err) rej(err);
+        });
+    })
+}
+function viewByDepartmentQuestions() {
+    return new Promise((res, rej) => {
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'id',
+                message: 'Enter department id:'
+            }
+        ]).then(answer => res(answer)).catch(err => rej(err));
+    });
+}
+function deleteEmployeeQuestions() {
+
+}
+
 module.exports = {
     firstQuestion,
     addDepartmentQuestions,
     addRoleQuestions,
     addEmployeeQuestions,
-    updateRoleQuestions
+    updateRoleQuestions,
+    viewByManagerQuestions,
+    viewByDepartmentQuestions,
+    deleteEmployeeQuestions
 };

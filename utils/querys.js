@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const cTable = require('console.table');
-const { firstQuestion, addDepartmentQuestions, addRoleQuestions, addEmployeeQuestions, updateRoleQuestions } = require ('./inquirerFunctions');
+const { firstQuestion, addDepartmentQuestions, addRoleQuestions, addEmployeeQuestions, updateRoleQuestions, viewByManagerQuestions, viewByDepartmentQuestions, deleteEmployeeQuestions } = require ('./inquirerFunctions');
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -84,6 +84,7 @@ function updateEmployeeRole() {
         connection.query(`UPDATE employee
         SET
         role_id = ${answers.role}
+        manager_id = '${answers.manager}'
         WHERE id = ${answers.id}`, function(err, res) {
             if (err) throw err;
             console.log('Updated!');
@@ -92,7 +93,34 @@ function updateEmployeeRole() {
         if (err) throw err;
     });
 }
-
+function viewEmployeesByManager() {
+    viewByManagerQuestions()
+    .then(answer => {
+        connection.query(`SELECT * FROM employee WHERE manager_id = ${answer.id}`, function(err,res) {
+            if(err) throw err;
+            console.log(cTable.getTable(res));
+        })
+    }).catch(err => {
+        if(err) throw err;
+    });  
+}
+function viewEmployeesByDepartment() {
+    viewByDepartmentQuestions()
+    .then(answer => {
+        connection.query(`SELECT * FROM employee
+        INNER JOIN roles
+        ON employee.role_id = roles.id
+        INNER JOIN department
+        ON roles.department_id = department.id
+        WHERE department_id = ${answer.id}`, function(err,res) {
+            if(err) throw err;
+            console.log(cTable.getTable(res));
+        });
+    }).catch(err => {if (err) throw err});
+}
+function deleteEmployee() {
+    deleteEmployeeQuestions()
+}
 module.exports = {
     allEmployeeQuery,
     allDepartmentQuery,
@@ -100,5 +128,8 @@ module.exports = {
     addDepartment,
     addRole,
     addEmployee,
-    updateEmployeeRole
+    updateEmployeeRole,
+    viewEmployeesByManager,
+    viewEmployeesByDepartment,
+    deleteEmployee
 };
