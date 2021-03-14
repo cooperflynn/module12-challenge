@@ -12,39 +12,43 @@ const connection = mysql.createConnection({
     password: '',
     database: 'mod12'
   });
-firstQuestion().then(answer => {
-  switch(answer.choice) {
-    case 'View all employees':
-      allEmployeeQuery();
-      break;
-    case 'View all departments':
-      allDepartmentQuery();
-      break;
-    case 'View all roles':
-      allRoleQuery();
-      break;
-    case 'Add department':
-      addDepartment();
-      break;
-    case 'Add role':
-      addRole();
-      break;
-    case 'Add employee':
-      addEmployee();
-      break;
-    case 'Update employee role':
-      updateEmployeeRole();
-      break;
-    case 'View employees by manager':
-      viewEmployeesByManager();
-      break;
-    case 'View employees by department':
-      viewEmployeesByDepartment();
-      break;
-    case 'Delete employee':
-      deleteEmployee();
-      break;
-  }
-}).catch(err => {if (err) throw err;});
+function serv() {
+  firstQuestion().then(answer => {
+    switch(answer.choice) {
+      case 'View all employees':
+        allEmployeeQuery();
+        break;
+      case 'View all departments':
+        allDepartmentQuery();
+        break;
+      case 'View all roles':
+        allRoleQuery();
+        break;
+      case 'Add department':
+        addDepartment();
+        break;
+      case 'Add role':
+        addRole();
+        break;
+      case 'Add employee':
+        addEmployee();
+        break;
+      case 'Update employee role':
+        updateEmployeeRole();
+        break;
+      case 'View employees by manager':
+        viewEmployeesByManager();
+        break;
+      case 'View employees by department':
+        viewEmployeesByDepartment();
+        break;
+      case 'Delete employee':
+        deleteEmployee();
+        break;
+    }
+  }).catch(err => {if (err) throw err;});
 
+}
+
+serv();
 

@@ -199,8 +199,20 @@ function viewByDepartmentQuestions() {
         ]).then(answer => res(answer)).catch(err => rej(err));
     });
 }
-function deleteEmployeeQuestions() {
-
+function deleteEmployeeQuestions(arr) {
+    return new Promise((res, rej) => {
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'id',
+                message: 'Enter employee id:'
+            }
+        ]).then(answer => {
+            res(answer.id);
+        }).catch(err => {
+            rej(answer);
+        });
+    });
 }
 
 module.exports = {

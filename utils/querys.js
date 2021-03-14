@@ -119,7 +119,12 @@ function viewEmployeesByDepartment() {
     }).catch(err => {if (err) throw err});
 }
 function deleteEmployee() {
-    deleteEmployeeQuestions()
+    deleteEmployeeQuestions().then(answer => {
+        connection.query(`DELETE FROM employee WHERE id = ${answer}`, function(err, ans) {
+            if(err) throw err;
+            console.log('Successfully deleted');
+        });
+    });
 }
 module.exports = {
     allEmployeeQuery,
